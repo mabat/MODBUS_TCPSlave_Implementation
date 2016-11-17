@@ -1,56 +1,85 @@
 package modbus_tcpslave;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import net.wimpi.modbus.ModbusCoupler;
 import net.wimpi.modbus.procimg.SimpleInputRegister;
 import net.wimpi.modbus.procimg.SimpleProcessImage;
-import net.wimpi.modbus.procimg.SimpleRegister;
 
 public class CreateRegistar {
 
     private SimpleProcessImage spi = null;
     private final CalculateRange CR; //za racun random vrijednosti u nekom range-u
+    private final List<Registar> registar = new ArrayList<>();
+    private final Timer timer;
 
     CreateRegistar() throws UnknownHostException {
-        
+
         CR = new CalculateRange(); //pomocna klasa za zacunanje range-a
         spi = new SimpleProcessImage();
         ModbusCoupler.getReference().setProcessImage(spi);
         ModbusCoupler.getReference().setMaster(false);
         ModbusCoupler.getReference().setUnitID(15); //id za spajanje na simulator
         
+        //######### dodavanje registara u listu ##########
         
-                            //######### dodavanje registara ##########
-        //0-770 Non-writable
+        //fake registers in list
+        for (int i = 0; i<771; ++i){
+            registar.add(new Registar(i,new int[]{0},0, 0));
+        }
+        //real registers
+        registar.add(new Registar(771, new int[]{0}, 0, 65336));
+        registar.add(new Registar(772, new int[]{0}, -32668, 32668));
+        registar.add(new Registar(773, new int[]{0}, -32668, 32668));
+        registar.add(new Registar(774, new int[]{0, 1, 2, 3}, 0, 65336));
+        registar.add(new Registar(775, new int[]{0, 2, 3, 4, 5, 6, 7, 11, 252}, 0, 65336));
+        registar.add(new Registar(776, new int[]{0}, 0, 65336));
+        registar.add(new Registar(777, new int[]{0}, -32668, 32668));
+        registar.add(new Registar(778, new int[]{0, 1, 2, 3}, 0, 65336));
+        registar.add(new Registar(779, new int[]{0}, 0, 65336));
+        registar.add(new Registar(780, new int[]{0, 1}, 0, 65336));
+        registar.add(new Registar(781, new int[]{0, 2}, 0, 65336));
+        registar.add(new Registar(782, new int[]{0, 2}, 0, 65336));
+        registar.add(new Registar(783, new int[]{0, 2}, 0, 65336));
+        registar.add(new Registar(784, new int[]{0}, 0, 65336));
+        registar.add(new Registar(785, new int[]{0}, 0, 65336));
+        registar.add(new Registar(786, new int[]{0}, 0, 65336));
+        registar.add(new Registar(787, new int[]{0}, 0, 65336));
+        registar.add(new Registar(788, new int[]{0}, 0, 65336));
+        registar.add(new Registar(789, new int[]{0}, 0, 65336));
+        registar.add(new Registar(790, new int[]{0, 1}, 0, 65336));
+
+        //######### dodavanje vrijednosti registara ##########
+
+        //fake first 770
         for (int i = 0; i < 771; ++i) {
             spi.addInputRegister(new SimpleInputRegister(0));
         }
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 771
-        spi.addInputRegister(new SimpleInputRegister(CR.range(-32668, 32668))); //Non writ 772
-        spi.addInputRegister(new SimpleInputRegister(CR.range(-32668, 32668))); //Non writ 773
-        spi.addInputRegister(new SimpleInputRegister(0)); //non writ 774 fake
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 775
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 776
-        spi.addInputRegister(new SimpleInputRegister(CR.range(-32668, 32668))); //Non writ 777
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 778
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 779
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 780
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 781
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 782
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 783
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 784
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 785
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 786
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 787
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 788
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 789
-        spi.addInputRegister(new SimpleInputRegister(CR.range(0, 65336))); //Non writ 790
-        
-        //0-773 writable
-        for (int i = 0; i < 774; ++i) {
-            spi.addRegister(new SimpleRegister(0));
+        //real values
+        for (int j = 771; j < 791; ++j) {
+            spi.addInputRegister(new SimpleInputRegister(CR.range(registar.get(j))));
         }
-        spi.addRegister(new SimpleRegister(CR.range(0, 65336))); //writable 774  !!!
+        
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run() {
+                changeRegistar();   //call method every second
+            }
+        },0, 1000);
+        //timer.cancel();
     }
+    public void changeRegistar() {
 
+        for (int j = 771; j < 791; ++j) {
+            spi.setInputRegister(j,new SimpleInputRegister(CR.range(registar.get(j))));
+        }
+//        System.out.println("test ");
+//        System.out.println(spi.getInputRegister(775).getValue());
+//        System.out.println("size "+registar.size());
+    }
 }
+

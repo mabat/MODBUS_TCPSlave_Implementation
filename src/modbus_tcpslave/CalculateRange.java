@@ -11,14 +11,19 @@ final class CalculateRange {
         rand = new Random();
     }
 
-    public int range(int a, int b) {
+    public int range(Registar reg) {
+        
+        //if registar has unit value than calculete random unit number
+        if (reg.getUnit().size() > 1){
+           int index = rand.nextInt(((reg.getUnit().size()-1) - 0) + 1) + 0; 
+           return reg.getUnitIndexAt(index);
+            
+        }else if (reg.getR1() < 0) {
 
-        if (a < 0) {
-
-            return rand.nextInt(b + Math.abs(a)) - Math.abs(a); //za range od negativne do pozitivne vrijednosti
+            return rand.nextInt(reg.getR2() + Math.abs(reg.getR1())) - Math.abs(reg.getR1()); //za range od negativne do pozitivne vrijednosti
         } else {
 
-            return rand.nextInt((b - a) + 1) + a;
+            return rand.nextInt((reg.getR2() - reg.getR1()) + 1) + reg.getR1();
         }
     }
 }

@@ -1,8 +1,7 @@
 package modbus_tcpslave;
 
 public class TestTCPSlave {
-   /*testiranje veze sa programom Modbus POll
-    
+        /*
 	public static void main(String[] args) {
 
 		ModbusTCPListener listener = null;
@@ -15,6 +14,8 @@ public class TestTCPSlave {
 			if (args != null && args.length == 1) {
 				port = Integer.parseInt(args[0]);
 			}
+			//System.out.println("jModbus Modbus Slave (Server)");
+
 			// 1. prepare a process image
 			spi = new SimpleProcessImage();
 
@@ -44,6 +45,8 @@ public class TestTCPSlave {
 			listener = new ModbusTCPListener(3);
 			listener.setPort(port);
                         listener.setAddress(InetAddress.getByName("192.168.1.23"));
+			
+			//System.out.println("Listening to "+listener.getClass().getCanonicalName()+" on port "+port);//.getAddress().getCanonicalHostName()
 			
 			listener.start();
 			
