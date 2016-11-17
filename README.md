@@ -2,10 +2,6 @@
 java Modbus TCPSlave Implementation using jamod(Java Modbus Library) 
 and Modbus master simulator - Modbus Poll 
 
-##Modbus Poll video:
-
-[![IMAGE ALT TEXT](https://i.vimeocdn.com/video/189879917_640x480.webp)](https://vimeo.com/189879917 "ModbusPoll")
-
 ##registers:
 
 ![Alt text](http://i.imgur.com/uBrgDUD.png)
