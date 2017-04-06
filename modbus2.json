@@ -1,0 +1,66 @@
+{
+    "serverData": {
+        "ip": "192.168.1.31",
+        "port": 1026,
+        "unitID": 15
+    },
+    "regs": [
+        {
+            "addres": 1,
+            "rangeA": 0,
+            "rangeB": 65336,
+            "unit": []
+        },
+        {
+            "addres": 2,
+            "rangeA": 0,
+            "rangeB": 65336,
+            "unit": []
+        },
+        {
+            "addres": 3,
+            "rangeA": -32668,
+            "rangeB": 32668,
+            "unit": []
+        },
+        {
+            "addres": 4,
+            "rangeA": -32668,
+            "rangeB": 32668,
+            "unit": []
+        },
+        {
+            "addres": 6,
+            "rangeA": -32668,
+            "rangeB": 32668,
+            "unit": []
+        },
+        {
+            "addres": 7,
+            "rangeA": 0,
+            "rangeB": 65336,
+            "unit": [
+                0,
+                1,
+                2,
+                3
+            ]
+        },
+        {
+            "addres": 8,
+            "rangeA": 0,
+            "rangeB": 65336,
+            "unit": [
+                0,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                11,
+                252
+            ]
+        }
+    ]
+}

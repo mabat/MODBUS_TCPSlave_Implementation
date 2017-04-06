@@ -1,36 +1,36 @@
 {
   "serverData": {
     "ip": "192.168.1.31",
-    "port": 1024,
-    "unitID": 13
+    "port": 1028,
+    "unitID": 17
   },
   "regs": [
     {
-      "addres": 770,
+      "addres": 10,
       "rangeA": 0,
       "rangeB": 65336,
       "unit": []
     },
     {
-      "addres": 771,
+      "addres": 11,
       "rangeA": 0,
       "rangeB": 65336,
       "unit": []
     },
     {
-      "addres": 773,
+      "addres": 13,
       "rangeA": -32668,
       "rangeB": 32668,
       "unit": []
     },
     {
-      "addres": 774,
+      "addres": 16,
       "rangeA": -32668,
       "rangeB": 32668,
       "unit": []
     },
     {
-      "addres": 776,
+      "addres": 17,
       "rangeA": 0,
       "rangeB": 65336,
       "unit": [
